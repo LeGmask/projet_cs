@@ -14,7 +14,7 @@ n = 200;
 %                                  uniformément répartie, cond = 1e10
 % imat == 3 valeurs propres D(i) = cond**(-(i-1)/(n-1)) avec cond = 1e5
 % imat == 4 valeurs propres D(i) = 1 - ((i-1)/(n-1))*(1 - 1/cond) avec cond = 1e2
-imat = 1;
+imat = 2;
 
 % tolérance
 eps = 1e-8;

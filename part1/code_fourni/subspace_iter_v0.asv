@@ -28,7 +28,7 @@ conv = 0;
 k = 0;
 
 % on génère un ensemble initial de m vecteurs orthogonaux
-V = eye(n);
+V = eyes(n);
 V = V(:, 1:m);
 
 % rappel : conv = invariance du sous-espace V : ||AV - VH||/||A|| <= eps
@@ -40,7 +40,7 @@ while (~conv && k < maxit)
     Y = A * V;
 
     % calcul de H, le quotient de Rayleigh H = V^T.A.V
-    H = V' * Y;
+    H = V' * A * V;
 
     % vérification de la convergence
     conv = (norm(A*V-V*H, 'fro') / normA) <= eps;
@@ -54,12 +54,12 @@ end
 [VH, DH] = eig(H);
 
 % on range les valeurs propres dans l'ordre décroissant
-[W, idx] = sort(diag(DH), 'descend');
+[D, idx] = sort(diag(DH), 'descend');
 % on permute les vecteurs propres en conséquence
 VH = VH(:, idx);
 
 % les m vecteurs propres dominants de A sont calculés à partir de ceux de H
-V = V * VH;
+% ...
 
 D = diag(W);
 
