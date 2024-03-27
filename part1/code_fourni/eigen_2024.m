@@ -1,4 +1,4 @@
-function [W, V, flag, q, qv] = eigen_2024(imat, n, v, m, eps, maxit, percentage, p, genere)
+function [W, V, flag, q, qv] = eigen_2023(imat, n, v, m, eps, maxit, percentage, p, genere)
 
 %%%%%%%%%%%%
 % RÉSULTATS
