@@ -19,7 +19,7 @@ imat = 1;
 % on génère la matrice (1) ou on lit dans un fichier (0)
 % si vous avez déjà généré la matrice d'une certaine taille et d'un type donné
 % vous pouvez mettre cette valeur à 0
-genere = 1;
+genere = 0;
 
 % méthode de calcul
 v = 10; % eig
@@ -38,6 +38,26 @@ genere = 0;
 
 % méthode de calcul
 v = 11; % basic power method
+
+% tolérance
+eps = 1e-8;
+% nombre d'itérations max pour atteindre la convergence
+maxit = 10000;
+
+[W, V, flag, q, qv] = eigen_2024(imat, n, v, m, eps, maxit, percentage, [], genere);
+
+fprintf('Qualité des couples propres (par rapport au critère d''arrêt) = [%0.3e , %0.3e]\n', min(qv), max(qv));
+fprintf('Qualité des valeurs propres (par rapport au spectre de la matrice) = [%0.3e , %0.3e] \n', min(q), max(q));
+
+% nombre maximum de couples propres calculés
+m = 50;
+percentage = 0.1;
+
+% on génère la matrice (1) ou on lit dans un fichier (0)
+genere = 0;
+
+% méthode de calcul
+v = 12; % basic power method
 
 % tolérance
 eps = 1e-8;

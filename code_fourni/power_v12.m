@@ -53,10 +53,10 @@ function [ V, D, n_ev, itv, flag ] = power_v11( A, m, percentage, eps, maxit )
         nb_it = 1;
         
         while(norme > eps && nb_it < maxit)
-          v = z / norm(z,2);
-          z = A*v;
-          beta = v'*z;
-          norme = norm(beta*v - z, 2)/norm(beta,2);
+          y = A*v;
+          beta = v'*y;
+          norme = norm(beta*v -y, 2)/norm(beta,2);
+          v = y / norm(y,2);
           nb_it = nb_it + 1;
         end
         
