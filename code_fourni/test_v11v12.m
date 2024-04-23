@@ -22,7 +22,7 @@ imat = 2;
 genere = 1;
 
 % méthode de calcul
-v = 10; % eig
+v = 11; % eig
 
 [W, V, flag, q, qv] = eigen_2024(imat, n, v, [], [], [], [], [], genere);
 
