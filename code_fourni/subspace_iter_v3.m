@@ -68,7 +68,7 @@ function [ V, D, n_ev, it, itv, flag ] = subspace_iter_v2( A, m, percentage, p, 
         Vr = mgs(Y);
 
         %recuperation de Vnc
-        Vnc = Vr(:,nb_c + 1:);
+        Vnc = Vr(:,nb_c + 1:end);
 
         %% Projection de Rayleigh-Ritz de Vnc
         [Wr, Vnc] = rayleigh_ritz_projection(A, Vnc);
@@ -128,8 +128,8 @@ function [ V, D, n_ev, it, itv, flag ] = subspace_iter_v2( A, m, percentage, p, 
         nb_c = nb_c + nbc_k;
 
         %recuperation de Vc et Vnc
-        Vc = Vr(:, :nb_c);
-        Vnc = Vr(:,nb_c + 1:);
+        Vc = Vr(:, 1:nb_c);
+        Vnc = Vr(:,nb_c + 1:end);
         
         % on a convergé dans l'un de ces deux cas
         conv = (nb_c == m) | (eigsum >= vtrace);
@@ -154,7 +154,8 @@ function [ V, D, n_ev, it, itv, flag ] = subspace_iter_v2( A, m, percentage, p, 
     % on indique comment on a fini
     if(eigsum >= vtrace)
         flag = 0;
-    else if (n_ev == m)
+    else 
+        if (n_ev == m)
             flag = 1;
         else
             flag = -3;
