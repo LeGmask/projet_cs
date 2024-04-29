@@ -44,12 +44,12 @@ function [ V, D, n_ev, itv, flag ] = power_v11( A, m, percentage, eps, maxit )
 
         % méthode de la puissance itérée
         v = randn(n,1);
-        z = A*v;
-        beta = v'*z;
+        y = A*v;
+        beta = v'*y;
 
         % conv = || beta * v - A*v||/|beta| < eps
         % voir section 2.1.2 du sujet
-        norme = norm(beta*v - z, 2)/norm(beta,2);
+        norme = norm(beta*v - y, 2)/norm(beta,2);
         nb_it = 1;
         
         while(norme > eps && nb_it < maxit)
