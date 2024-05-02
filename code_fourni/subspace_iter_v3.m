@@ -1,4 +1,4 @@
-% version améliorée de la méthode de l'espace invariant (v2)
+% version améliorée de la méthode de l'espace invariant (v3)
 % avec utilisation de la projection de Raleigh-Ritz 
 % avec une accélération bloc
 
@@ -21,7 +21,7 @@
     %  flag = 1  : on converge en ayant atteint la taille maximale de l'espace
     %  flag = -3 : on n'a pas convergé en maxit itérations
 
-function [ V, D, n_ev, it, itv, flag ] = subspace_iter_v2( A, m, percentage, p, eps, maxit )
+function [ V, D, n_ev, it, itv, flag ] = subspace_iter_v3( A, m, percentage, p, eps, maxit )
 
     % calcul de la norme de A (pour le critère de convergence d'un vecteur (gamma))
     normA = norm(A, 'fro');
@@ -34,6 +34,7 @@ function [ V, D, n_ev, it, itv, flag ] = subspace_iter_v2( A, m, percentage, p, 
 
     n = size(A,1);
     W = zeros(m,1);
+    Wr = W;
     itv = zeros(m,1);
 
     % numéro de l'itération courante
@@ -65,13 +66,13 @@ function [ V, D, n_ev, it, itv, flag ] = subspace_iter_v2( A, m, percentage, p, 
         Y = [Vc, Ap*Vnc];
 
         %% orthogonalisation
-        Vr = mgs(Y);
+        Vr = mgs_block(Y, nb_c);
 
         %recuperation de Vnc
         Vnc = Vr(:,nb_c + 1:end);
 
         %% Projection de Rayleigh-Ritz de Vnc
-        [Wr, Vnc] = rayleigh_ritz_projection(A, Vnc);
+        [Wr(nb_c+1:end), Vnc] = rayleigh_ritz_projection(A, Vnc);
 
         %reconstruction de Vr
         Vr = [Vc, Vnc];
@@ -129,7 +130,7 @@ function [ V, D, n_ev, it, itv, flag ] = subspace_iter_v2( A, m, percentage, p, 
 
         %recuperation de Vc et Vnc
         Vc = Vr(:, 1:nb_c);
-        Vnc = Vr(:,nb_c + 1:end);
+        Vnc = Vr(:,nb_c+1:end);
         
         % on a convergé dans l'un de ces deux cas
         conv = (nb_c == m) | (eigsum >= vtrace);
