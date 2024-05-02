@@ -4,7 +4,7 @@ clear all
 close all
 
 % Lecture de l'image
-I = imread('BD_Asterix_1.png');
+I = imread('BD_Asterix_0.png');
 I = rgb2gray(I);
 I = double(I);
 
@@ -23,8 +23,8 @@ l = min(p, q);
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % vecteur pour stocker la différence entre l'image et l'image reconstuite
-inter = 1:40:(200 + 40);
-inter(end) = 200;
+inter = 1:40:(160 + 40);
+inter(end) = 160;
 differenceSVD = zeros(size(inter, 2), 1);
 
 % images reconstruites en utilisant de 1 à 200 vecteurs (avec un pas de 40)
@@ -40,6 +40,8 @@ for k = inter
     figure(ti)
     colormap('gray')
     imagesc(Im_k), axis equal
+    axis off
+    title(sprintf("Reconstruction de l'image pour k = %d", k))
 
     % Calcul de la différence entre les 2 images
     td = td + 1;
@@ -54,7 +56,7 @@ hold on
 plot(inter, differenceSVD, 'rx')
 ylabel('RMSE')
 xlabel('rank k')
-pause
+%pause
 
 
 % Plugger les différentes méthodes : eig, puissance itérée et les 4 versions de la "subspace iteration method"
@@ -85,15 +87,15 @@ v = 1;
 % À COMPLÉTER
 %%%%%%%%%%%%%
 
-pause
+%pause
 close all
 
-figure
+%figure
 tic
 
 M = I * I';
 
-t = tiledlayout(3, 3);
+%t = tiledlayout(3, 3);
 
 %%
 % calcul des couples propres
@@ -108,7 +110,7 @@ switch v
         U = U(:, 1:search_space);
 
         fprintf('\nTemps EIG\n');
-        title(t, 'Results using EIG');
+        %title(t, 'Results using EIG');
     case 1
         %% power method
 
@@ -116,7 +118,7 @@ switch v
         U = U(:,1:n_ev);
 
         fprintf('\nTemps Power Method\n');
-        title(t, 'Results using the Power Method');
+        %title(t, 'Results using the Power Method');
 end
 
 %% calcul des valeurs singulières
@@ -135,20 +137,20 @@ V = I' * U .* repmat(1./diag(Sigma)', p, 1);
 difference = zeros(size(inter, 2), 1);
 
 td = 0;
+ti = 0;
 
 toc 
-
 for k = inter
-
     % Calcul de l'image de rang k
     Im_k = U(:, 1:k) * S(1:k, 1:k) * V(:, 1:k)';
 
     % Affichage de l'image reconstruite
     ti = ti + 1;
-    nexttile;
+    figure(ti)
     colormap('gray')
     imagesc(Im_k), axis equal
-    title(['k = ' num2str(k)]);
+    axis off
+    title(sprintf("Reconstruction de l'image pour k = %d", k))
 
     % Calcul de la différence entre les 2 images
     td = td + 1;
@@ -162,4 +164,4 @@ hold on
 plot(inter, difference, 'rx')
 ylabel('RMSE')
 xlabel('rank k')
-pause
+%pause
